@@ -20,7 +20,7 @@ func Test_B2S(t *testing.T) {
 	}
 
 	if got := B2S(tests.args.b); got != tests.want {
-		t.Errorf("b2s(): '%v', want: '%v'", got, tests.want)
+		t.Errorf("B2S(): '%v', want: '%v'", got, tests.want)
 	}
 }
 
@@ -39,6 +39,6 @@ func Test_S2B(t *testing.T) {
 	}
 
 	if got := S2B(tests.args.b); !bytes.Equal(got, tests.want) {
-		t.Errorf("b2s(): '%v', want: '%v'", got, tests.want)
+		t.Errorf("S2B(): '%v', want: '%v'", got, tests.want)
 	}
 }
