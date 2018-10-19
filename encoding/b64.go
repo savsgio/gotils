@@ -1,4 +1,4 @@
-package encoding
+package enc
 
 import "encoding/base64"
 import "github.com/savsgio/gotils"
