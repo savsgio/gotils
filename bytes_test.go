@@ -59,3 +59,29 @@ func TestExtendByteSlice(t *testing.T) {
 		})
 	}
 }
+
+func TestRandBytes(t *testing.T) {
+	n := 32
+	dst := make([]byte, n)
+
+	RandBytes(dst)
+
+	for i := range dst {
+		if string(i) == "" {
+			t.Fatalf("RandBytes() invalid char '%v'", dst[i])
+		}
+	}
+
+	if len(dst) != n {
+		t.Fatalf("RandBytes() lenght '%d', want '%d'", len(dst), n)
+	}
+}
+
+func BenchmarkRandBytes(b *testing.B) {
+	n := 32
+	dst := make([]byte, n)
+
+	for i := 0; i < b.N; i++ {
+		RandBytes(dst)
+	}
+}
