@@ -22,7 +22,9 @@ func acquireDaoBuffer() *daoBuffer {
 }
 
 func releaseDaoBuffer(buf *daoBuffer) {
+	buf.stmt.Close()
 	buf.reset()
+
 	daoBufferPool.Put(buf)
 }
 
@@ -36,82 +38,77 @@ func New(driver, dsn string) (*Dao, error) {
 	return db, err
 }
 
-func (db *Dao) makeTxStmt(query string) (*daoBuffer, error) {
+func (db *Dao) makeTxStmt(buf *daoBuffer, query string) error {
 	var err error
 
-	buf := acquireDaoBuffer()
-
-	buf.tx, err = db.Connection.Begin()
-	if err != nil {
-		return buf, err
+	if buf.tx, err = db.Connection.Begin(); err != nil {
+		return err
 	}
 
-	buf.stmt, err = buf.tx.Prepare(query)
+	if buf.stmt, err = buf.tx.Prepare(query); err != nil {
+		return err
+	}
 
-	return buf, err
+	return nil
 }
 
-func (db *Dao) makeStmt(query string) (*daoBuffer, error) {
+func (db *Dao) makeStmt(buf *daoBuffer, query string) error {
 	var err error
 
-	buf := acquireDaoBuffer()
-	buf.stmt, err = db.Connection.Prepare(query)
+	if buf.stmt, err = db.Connection.Prepare(query); err != nil {
+		return err
+	}
 
-	return buf, err
+	return nil
 }
 
-// Exec insert or update data from database
+// Exec insert/update data to/from database
 func (db *Dao) Exec(query string, args ...interface{}) (int64, error) {
-	buf, err := db.makeTxStmt(query)
+	buf := acquireDaoBuffer()
+	defer releaseDaoBuffer(buf)
+
+	err := db.makeTxStmt(buf, query)
 	if err != nil {
 		return 0, err
 	}
-	defer buf.stmt.Close()
 
 	buf.res, err = buf.stmt.Exec(args...)
 	if err != nil {
 		return 0, err
 	}
-	x, err := buf.res.RowsAffected()
+
+	n, err := buf.res.RowsAffected()
 	if err != nil {
 		return 0, err
 	}
-	err = buf.tx.Commit()
 
-	releaseDaoBuffer(buf)
+	if err = buf.tx.Commit(); err != nil {
+		return 0, err
+	}
 
-	return x, err
+	return n, nil
 }
 
 // Query get data from database
 func (db *Dao) Query(query string, args ...interface{}) (*sql.Rows, error) {
-	buf, err := db.makeStmt(query)
-	if err != nil {
-		return nil, err
-	}
-	defer buf.stmt.Close()
+	buf := acquireDaoBuffer()
+	defer releaseDaoBuffer(buf)
 
-	rows, err := buf.stmt.Query(args...)
-	if err != nil {
+	if err := db.makeStmt(buf, query); err != nil {
 		return nil, err
 	}
 
-	releaseDaoBuffer(buf)
-
-	return rows, nil
+	return buf.stmt.Query(args...)
 }
 
 // QueryRow get just one data from database
 func (db *Dao) QueryRow(query string, args ...interface{}) (*sql.Row, error) {
-	buf, err := db.makeStmt(query)
-	if err != nil {
+	buf := acquireDaoBuffer()
+	defer releaseDaoBuffer(buf)
+
+	if err := db.makeStmt(buf, query); err != nil {
 		return nil, err
 	}
-	defer buf.stmt.Close()
 
-	row := buf.stmt.QueryRow(args...)
-
-	releaseDaoBuffer(buf)
-
-	return row, nil
+	return buf.stmt.QueryRow(args...), nil
 }
