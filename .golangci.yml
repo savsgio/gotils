@@ -1,0 +1,6 @@
+linters:
+  fast: true
+  enable-all: true
+  disable:
+    - gomnd
+    - gochecknoglobals
