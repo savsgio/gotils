@@ -17,6 +17,7 @@ func B2S(b []byte) string {
 		Len:  sh.Len,
 		Cap:  sh.Len,
 	}
+
 	return *(*string)(unsafe.Pointer(&bh))
 }
 
@@ -31,5 +32,6 @@ func S2B(s string) []byte {
 		Len:  sh.Len,
 		Cap:  sh.Len,
 	}
+
 	return *(*[]byte)(unsafe.Pointer(&bh))
 }

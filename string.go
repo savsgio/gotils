@@ -8,6 +8,7 @@ func StringSliceIndexOf(vs []string, s string) int {
 			return i
 		}
 	}
+
 	return -1
 }
 

@@ -20,6 +20,7 @@ func ExtendByteSlice(b []byte, needLen int) []byte {
 	if n := needLen - cap(b); n > 0 {
 		b = append(b, make([]byte, n)...)
 	}
+
 	return b[:needLen]
 }
 
@@ -32,10 +33,12 @@ func RandBytes(dst []byte) []byte {
 		if remain == 0 {
 			cache, remain = src.Int63(), charsetIdxMax
 		}
+
 		if idx := int(cache & charsetIdxMask); idx < len(charset) {
 			dst[i] = charset[idx]
 			i--
 		}
+
 		cache >>= charsetIdxBits
 		remain--
 	}

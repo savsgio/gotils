@@ -9,9 +9,11 @@ func TestExtendByteSlice(t *testing.T) {
 		b       []byte
 		needLen int
 	}
+
 	type want struct {
 		sliceLen int
 	}
+
 	tests := []struct {
 		name string
 		args args
@@ -48,13 +50,18 @@ func TestExtendByteSlice(t *testing.T) {
 			},
 		},
 	}
+
 	for _, tt := range tests {
+		b := tt.args.b
+		needLen := tt.args.needLen
+		sliceLen := tt.want.sliceLen
+
 		t.Run(tt.name, func(t *testing.T) {
-			got := ExtendByteSlice(tt.args.b, tt.args.needLen)
+			got := ExtendByteSlice(b, needLen)
 
 			gotLen := len(got)
-			if gotLen != tt.want.sliceLen {
-				t.Errorf("ExtendByteSlice() length = %v, want = %v", gotLen, tt.want.sliceLen)
+			if gotLen != sliceLen {
+				t.Errorf("ExtendByteSlice() length = %v, want = %v", gotLen, sliceLen)
 			}
 		})
 	}
@@ -73,7 +80,7 @@ func TestRandBytes(t *testing.T) {
 	}
 
 	if len(dst) != n {
-		t.Fatalf("RandBytes() lenght '%d', want '%d'", len(dst), n)
+		t.Fatalf("RandBytes() length '%d', want '%d'", len(dst), n)
 	}
 }
 

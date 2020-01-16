@@ -37,16 +37,15 @@ var pairs = []testpair{
 	{"sure.", "c3VyZS4="},
 }
 
-func testEqual(t *testing.T, msg string, args ...interface{}) bool {
+func testEqual(t *testing.T, msg string, args ...interface{}) {
 	if args[len(args)-2] != args[len(args)-1] {
 		t.Errorf(msg, args...)
-		return false
 	}
-	return true
 }
 
 func TestAppendEncode(t *testing.T) {
 	var dbuf []byte
+
 	for _, p := range pairs {
 		b := AppendEncode(base64.StdEncoding, dbuf, []byte(p.decoded))
 		count := len(b) - len(dbuf)
@@ -60,6 +59,7 @@ func TestAppendEncode(t *testing.T) {
 
 func TestAppendDecode(t *testing.T) {
 	var dbuf []byte
+
 	for _, p := range pairs {
 		b, err := AppendDecode(base64.StdEncoding, dbuf, []byte(p.encoded))
 		count := len(b) - len(dbuf)
@@ -74,8 +74,10 @@ func TestAppendDecode(t *testing.T) {
 
 func BenchmarkAppendEncode(b *testing.B) {
 	var dbuf []byte
+
 	data := make([]byte, 8192)
 	b.SetBytes(int64(len(data)))
+
 	for i := 0; i < b.N; i++ {
 		dbuf = AppendEncode(base64.StdEncoding, dbuf[:0], data)
 	}
@@ -83,8 +85,10 @@ func BenchmarkAppendEncode(b *testing.B) {
 
 func BenchmarkAppendDecode(b *testing.B) {
 	var dbuf []byte
+
 	data := AppendEncode(base64.StdEncoding, nil, make([]byte, 8192))
 	b.SetBytes(int64(len(data)))
+
 	for i := 0; i < b.N; i++ {
 		dbuf, _ = AppendDecode(base64.StdEncoding, dbuf[:0], data)
 	}

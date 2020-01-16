@@ -9,6 +9,7 @@ func Test_B2S(t *testing.T) {
 	type args struct {
 		b []byte
 	}
+
 	tests := struct {
 		args args
 		want string
@@ -28,6 +29,7 @@ func Test_S2B(t *testing.T) {
 	type args struct {
 		b string
 	}
+
 	tests := struct {
 		args args
 		want []byte
