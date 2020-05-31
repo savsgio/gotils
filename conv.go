@@ -2,8 +2,8 @@ package gotils
 
 import (
 	"reflect"
-	"unsafe"
 	"runtime"
+	"unsafe"
 )
 
 // B2S converts byte slice to a string without memory allocation.
@@ -17,7 +17,9 @@ func B2S(b []byte) string {
 	sh := (*reflect.StringHeader)(unsafe.Pointer(&s))
 	sh.Data = bh.Data
 	sh.Len = bh.Len
+	
 	runtime.KeepAlive(b)
+	
 	return s
 }
 
@@ -32,6 +34,8 @@ func S2B(s string) []byte {
 	bh.Data = sh.Data
 	bh.Cap = sh.Len
 	bh.Len = sh.Len
+	
 	runtime.KeepAlive(s)
+	
 	return b
 }
