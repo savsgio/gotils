@@ -11,7 +11,7 @@ import (
 // Note it may break if string and/or slice header will change
 // in the future go versions.
 func B2S(b []byte) string {
-    return *(*string)(unsafe.Pointer(&b))
+	return *(*string)(unsafe.Pointer(&b))
 }
 
 // S2B converts string to a byte slice without memory allocation.
