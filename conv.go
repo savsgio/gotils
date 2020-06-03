@@ -24,6 +24,6 @@ func S2B(s string) (b []byte) {
 	bh.Data = sh.Data
 	bh.Cap = sh.Len
 	bh.Len = sh.Len
-	
+
 	return
 }
