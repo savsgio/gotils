@@ -74,7 +74,7 @@ func TestRandBytes(t *testing.T) {
 	RandBytes(dst)
 
 	for i := range dst {
-		if string(i) == "" {
+		if string(rune(i)) == "" {
 			t.Fatalf("RandBytes() invalid char '%v'", dst[i])
 		}
 	}
