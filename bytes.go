@@ -14,7 +14,7 @@ const (
 	charsetIdxMax  = 63 / charsetIdxBits   // # of letter indices fitting in 63 bits
 )
 
-// ExtendByteSlice extends b to needLen bytes
+// ExtendByteSlice extends b to needLen bytes.
 func ExtendByteSlice(b []byte, needLen int) []byte {
 	b = b[:cap(b)]
 	if n := needLen - cap(b); n > 0 {

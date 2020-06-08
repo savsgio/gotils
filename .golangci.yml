@@ -4,3 +4,8 @@ linters:
   disable:
     - gomnd
     - gochecknoglobals
+    - testpackage
+    - goerr113
+    - nolintlint
+
+
