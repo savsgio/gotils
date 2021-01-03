@@ -1,9 +1,9 @@
-package encoding
+package gbase64
 
 import (
 	"encoding/base64"
 
-	"github.com/savsgio/gotils"
+	"github.com/savsgio/gotils/bytes"
 )
 
 // AppendEncode appends encoded src to dst using the encoding enc
@@ -16,7 +16,7 @@ import (
 // See https://go-review.googlesource.com/c/go/+/37639/1/src/encoding/base64/base64.go#149
 func AppendEncode(enc *base64.Encoding, dst, src []byte) []byte {
 	sliceLen := enc.EncodedLen(len(src)) + len(dst)
-	b := gotils.ExtendByteSlice(dst, sliceLen)
+	b := bytes.Extend(dst, sliceLen)
 	enc.Encode(b[len(dst):], src)
 
 	return b
@@ -31,8 +31,8 @@ func AppendEncode(enc *base64.Encoding, dst, src []byte) []byte {
 // See https://go-review.googlesource.com/c/go/+/37639/1/src/encoding/base64/base64.go#372
 func AppendDecode(enc *base64.Encoding, dst, src []byte) ([]byte, error) {
 	sliceLen := enc.DecodedLen(len(src)) + len(dst)
-	b := gotils.ExtendByteSlice(dst, sliceLen)
+	b := bytes.Extend(dst, sliceLen)
 	n, err := enc.Decode(b[len(dst):], src)
 
-	return b[:len(dst)+n], err
+	return b[:len(dst)+n], err // nolint:wrapcheck
 }

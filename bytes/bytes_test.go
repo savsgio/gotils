@@ -1,10 +1,10 @@
-package gotils
+package bytes
 
 import (
 	"testing"
 )
 
-func TestExtendByteSlice(t *testing.T) {
+func Test_Extend(t *testing.T) {
 	type args struct {
 		b       []byte
 		needLen int
@@ -57,7 +57,7 @@ func TestExtendByteSlice(t *testing.T) {
 		sliceLen := tt.want.sliceLen
 
 		t.Run(tt.name, func(t *testing.T) {
-			got := ExtendByteSlice(b, needLen)
+			got := Extend(b, needLen)
 
 			gotLen := len(got)
 			if gotLen != sliceLen {
@@ -67,11 +67,11 @@ func TestExtendByteSlice(t *testing.T) {
 	}
 }
 
-func TestRandBytes(t *testing.T) {
+func Test_Rand(t *testing.T) {
 	n := 32
 	dst := make([]byte, n)
 
-	RandBytes(dst)
+	Rand(dst)
 
 	for i := range dst {
 		if string(rune(i)) == "" {
@@ -84,11 +84,11 @@ func TestRandBytes(t *testing.T) {
 	}
 }
 
-func BenchmarkRandBytes(b *testing.B) {
+func Benchmark_Rand(b *testing.B) {
 	n := 32
 	dst := make([]byte, n)
 
 	for i := 0; i < b.N; i++ {
-		RandBytes(dst)
+		Rand(dst)
 	}
 }
