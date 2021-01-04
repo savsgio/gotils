@@ -1,4 +1,4 @@
-package gbase64
+package base64
 
 import (
 	"encoding/base64"

@@ -1,6 +1,6 @@
 // See https://go-review.googlesource.com/c/go/+/37639/1/src/encoding/base64/base64_test.go#18
 
-package gbase64
+package base64
 
 import (
 	"encoding/base64"
@@ -37,9 +37,7 @@ var pairs = []testpair{
 	{"sure.", "c3VyZS4="},
 }
 
-func testEqual(t *testing.T, msg string, args ...interface{}) {
-	t.Helper()
-
+func testEqual(t *testing.T, msg string, args ...interface{}) { // nolint:thelper
 	if args[len(args)-2] != args[len(args)-1] {
 		t.Errorf(msg, args...)
 	}
