@@ -20,4 +20,4 @@ The utils have been moved to subpackages:
 - gotils.StringSliceInclude -> strings.Include
 - gotils.StringUniqueAppend -> strings.UniqueAppend
 
-**Will be removed after 01/06/2021, try to use new imports before then**
+**Will be removed after 01/06/2021. Please, try to use new imports before then**
