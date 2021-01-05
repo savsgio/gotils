@@ -40,7 +40,7 @@ func Test_Extend(t *testing.T) {
 			},
 		},
 		{
-			name: "Initial 0",
+			name: "Initial 69",
 			args: args{
 				b:       make([]byte, 45),
 				needLen: 69,
