@@ -42,7 +42,7 @@ func Test_UniqueAppend(t *testing.T) {
 	s := "unique"
 	slice2 := append(slice, s)
 
-	result = UniqueAppend(slice2, slice[0])
+	result = UniqueAppend(slice2, slice...)
 
 	if len(result) == len(slice) {
 		t.Errorf("StringUniqueAppend() == %v, want %v", result, slice2)

@@ -18,9 +18,13 @@ func Include(slice []string, s string) bool {
 }
 
 // UniqueAppend appends a string if not exist in the slice.
-func UniqueAppend(slice []string, s string) []string {
-	if IndexOf(slice, s) < 0 {
-		slice = append(slice, s)
+func UniqueAppend(slice []string, s ...string) []string {
+	for i := range s {
+		if IndexOf(slice, s[i]) != -1 {
+			continue
+		}
+
+		slice = append(slice, s[i])
 	}
 
 	return slice
