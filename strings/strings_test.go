@@ -1,6 +1,9 @@
 package strings
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
 func Test_IndexOf(t *testing.T) {
 	slice := []string{"kratgo", "fast", "http", "cache"}
@@ -46,5 +49,16 @@ func Test_UniqueAppend(t *testing.T) {
 
 	if len(result) == len(slice) {
 		t.Errorf("StringUniqueAppend() == %v, want %v", result, slice2)
+	}
+}
+
+func Test_Reverse(t *testing.T) {
+	slice := []string{"kratgo", "fast", "http", "cache"}
+	reversedSlice := []string{"cache", "http", "fast", "kratgo"}
+
+	result := Reverse(slice)
+
+	if !reflect.DeepEqual(result, reversedSlice) {
+		t.Errorf("Reverse() == %v, want %v", result, reversedSlice)
 	}
 }
