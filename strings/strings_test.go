@@ -62,3 +62,13 @@ func Test_Reverse(t *testing.T) {
 		t.Errorf("Reverse() == %v, want %v", result, reversedSlice)
 	}
 }
+
+func Test_Copy(t *testing.T) {
+	slice := []string{"kratgo", "fast", "http", "cache"}
+
+	result := Copy(slice)
+
+	if !reflect.DeepEqual(result, slice) {
+		t.Errorf("Copy() == %v, want %v", result, slice)
+	}
+}

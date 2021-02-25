@@ -38,3 +38,11 @@ func Reverse(slice []string) []string {
 
 	return slice
 }
+
+// Copy returns a copy of the slice.
+func Copy(slice []string) []string {
+	dst := make([]string, len(slice))
+	copy(dst, slice)
+
+	return dst
+}
