@@ -72,3 +72,26 @@ func Test_Copy(t *testing.T) {
 		t.Errorf("Copy() == %v, want %v", result, slice)
 	}
 }
+
+func Test_Equal(t *testing.T) {
+	slice1 := []string{"kratgo", "fast", "http", "cache"}
+	slice2 := []string{"kratgo", "fast", "http", "cache"}
+
+	if !Equal(slice1, slice2) {
+		t.Errorf("Equal() == %v, want %v", false, true)
+	}
+
+	slice1 = []string{"kratgo", "fast", "http", "cache"}
+	slice2 = []string{"kratgo", "fast", "http"}
+
+	if Equal(slice1, slice2) {
+		t.Errorf("Equal() == %v, want %v", true, false)
+	}
+
+	slice1 = []string{"kratgo", "fast", "http", "cache"}
+	slice2 = []string{"kratgo", "fast", "rpc", "cache"}
+
+	if Equal(slice1, slice2) {
+		t.Errorf("Equal() == %v, want %v", true, false)
+	}
+}
