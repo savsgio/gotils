@@ -1,5 +1,22 @@
 package strings
 
+import (
+	"github.com/savsgio/gotils/strconv"
+)
+
+// Copy returns a copy of string in a new pointer.
+func Copy(s string) string {
+	return string(strconv.S2B(s))
+}
+
+// CopySlice returns a copy of the slice.
+func CopySlice(slice []string) []string {
+	dst := make([]string, len(slice))
+	copy(dst, slice)
+
+	return dst
+}
+
 // IndexOf returns index position in slice from given string
 // If value is -1, the string does not found.
 func IndexOf(slice []string, s string) int {
@@ -14,7 +31,7 @@ func IndexOf(slice []string, s string) int {
 
 // Include returns true or false if given string is in slice.
 func Include(slice []string, s string) bool {
-	return IndexOf(slice, s) >= 0
+	return IndexOf(slice, s) != -1
 }
 
 // UniqueAppend appends a string if not exist in the slice.
@@ -30,25 +47,8 @@ func UniqueAppend(slice []string, s ...string) []string {
 	return slice
 }
 
-// Reverse reverses a string slice.
-func Reverse(slice []string) []string {
-	for i, j := 0, len(slice)-1; i < j; i, j = i+1, j-1 {
-		slice[i], slice[j] = slice[j], slice[i]
-	}
-
-	return slice
-}
-
-// Copy returns a copy of the slice.
-func Copy(slice []string) []string {
-	dst := make([]string, len(slice))
-	copy(dst, slice)
-
-	return dst
-}
-
-// Equal checks if the slices are equal.
-func Equal(slice1, slice2 []string) bool {
+// EqualSlices checks if the slices are equal.
+func EqualSlices(slice1, slice2 []string) bool {
 	if len(slice1) != len(slice2) {
 		return false
 	}
@@ -60,4 +60,13 @@ func Equal(slice1, slice2 []string) bool {
 	}
 
 	return true
+}
+
+// ReverseSlice reverses a string slice.
+func ReverseSlice(slice []string) []string {
+	for i, j := 0, len(slice)-1; i < j; i, j = i+1, j-1 {
+		slice[i], slice[j] = slice[j], slice[i]
+	}
+
+	return slice
 }
