@@ -1,8 +1,48 @@
 package bytes
 
 import (
+	"reflect"
 	"testing"
 )
+
+func Test_Rand(t *testing.T) {
+	n := 32
+	dst := make([]byte, n)
+
+	Rand(dst)
+
+	for i := range dst {
+		if string(rune(i)) == "" {
+			t.Fatalf("RandBytes() invalid char '%v'", dst[i])
+		}
+	}
+
+	if len(dst) != n {
+		t.Fatalf("RandBytes() length '%d', want '%d'", len(dst), n)
+	}
+}
+
+func Test_Copy(t *testing.T) {
+	str := []byte("cache")
+	result := Copy(str)
+
+	if reflect.ValueOf(&str).Pointer() == reflect.ValueOf(&result).Pointer() {
+		t.Errorf("Copy() returns the same pointer (source == %p | result == %p)", &str, &result)
+	}
+}
+
+func Test_Equal(t *testing.T) {
+	foo := []byte("foo")
+	bar := []byte("bar")
+
+	if isEqual := Equal(foo, bar); isEqual {
+		t.Errorf("Equal(%s, %s) == %v, want %v", foo, bar, isEqual, false)
+	}
+
+	if isEqual := Equal(foo, foo); !isEqual {
+		t.Errorf("Equal(%s, %s) == %v, want %v", foo, foo, isEqual, true)
+	}
+}
 
 func Test_Extend(t *testing.T) {
 	type args struct {
@@ -67,20 +107,27 @@ func Test_Extend(t *testing.T) {
 	}
 }
 
-func Test_Rand(t *testing.T) {
-	n := 32
-	dst := make([]byte, n)
+func Test_Prepend(t *testing.T) {
+	foo := []byte("foo")
+	bar := []byte("bar")
 
-	Rand(dst)
+	expected := []byte("foobar")
+	result := Prepend(bar, foo...)
 
-	for i := range dst {
-		if string(rune(i)) == "" {
-			t.Fatalf("RandBytes() invalid char '%v'", dst[i])
-		}
+	if isEqual := Equal(result, expected); !isEqual {
+		t.Errorf("Prepend() == %s, want %s", result, expected)
 	}
+}
 
-	if len(dst) != n {
-		t.Fatalf("RandBytes() length '%d', want '%d'", len(dst), n)
+func Test_PrependString(t *testing.T) {
+	foo := "foo"
+	bar := []byte("bar")
+
+	expected := []byte("foobar")
+	result := PrependString(bar, foo)
+
+	if isEqual := Equal(result, expected); !isEqual {
+		t.Errorf("Prepend() == %s, want %s", result, expected)
 	}
 }
 
