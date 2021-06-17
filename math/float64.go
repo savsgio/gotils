@@ -14,8 +14,8 @@ func NewFloat64Calculator() *Float64Calculator {
 	return &Float64Calculator{}
 }
 
-// places returns the number of decimal.
-func (fc *Float64Calculator) places(x float64) int {
+// DecimalPlaces returns the number of decimal places.
+func (fc *Float64Calculator) DecimalPlaces(x float64) int {
 	buf := bytebufferpool.Get()
 	defer bytebufferpool.Put(buf)
 
@@ -29,7 +29,8 @@ func (fc *Float64Calculator) places(x float64) int {
 	return 0
 }
 
-func (fc *Float64Calculator) max(x, y int) int {
+// Max returns the larger of x or y.
+func (fc *Float64Calculator) Max(x, y int) int {
 	if x > y {
 		return x
 	}
@@ -39,7 +40,7 @@ func (fc *Float64Calculator) max(x, y int) int {
 
 // Add returns a + b.
 func (fc *Float64Calculator) Add(a, b float64) float64 {
-	exp := math.Pow10(fc.max(fc.places(a), fc.places(b)))
+	exp := math.Pow10(fc.Max(fc.DecimalPlaces(a), fc.DecimalPlaces(b)))
 
 	intA := math.Trunc(a * exp)
 	intB := math.Trunc(b * exp)
@@ -49,7 +50,7 @@ func (fc *Float64Calculator) Add(a, b float64) float64 {
 
 // Sub returns a - b.
 func (fc *Float64Calculator) Sub(a, b float64) float64 {
-	exp := math.Pow10(fc.max(fc.places(a), fc.places(b)))
+	exp := math.Pow10(fc.Max(fc.DecimalPlaces(a), fc.DecimalPlaces(b)))
 
 	intA := math.Trunc(a * exp)
 	intB := math.Trunc(b * exp)
@@ -59,8 +60,8 @@ func (fc *Float64Calculator) Sub(a, b float64) float64 {
 
 // Mul returns a * b.
 func (fc *Float64Calculator) Mul(a, b float64) float64 {
-	placesA := fc.places(a)
-	placesB := fc.places(b)
+	placesA := fc.DecimalPlaces(a)
+	placesB := fc.DecimalPlaces(b)
 
 	expA := math.Pow10(placesA)
 	expB := math.Pow10(placesB)
@@ -75,8 +76,8 @@ func (fc *Float64Calculator) Mul(a, b float64) float64 {
 
 // Div returns a / b.
 func (fc *Float64Calculator) Div(a, b float64) float64 {
-	placesA := fc.places(a)
-	placesB := fc.places(b)
+	placesA := fc.DecimalPlaces(a)
+	placesB := fc.DecimalPlaces(b)
 
 	expA := math.Pow10(placesA)
 	expB := math.Pow10(placesB)
