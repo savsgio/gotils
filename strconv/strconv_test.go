@@ -44,3 +44,19 @@ func Test_S2B(t *testing.T) {
 		t.Errorf("S2B(): '%v', want: '%v'", got, tests.want)
 	}
 }
+
+func Benchmark_B2S(b *testing.B) {
+	s := []byte("strconv")
+
+	for i := 0; i < b.N; i++ {
+		B2S(s)
+	}
+}
+
+func Benchmark_S2B(b *testing.B) {
+	s := "strconv"
+
+	for i := 0; i < b.N; i++ {
+		S2B(s)
+	}
+}
