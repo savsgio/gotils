@@ -2,7 +2,6 @@ package strconv
 
 import (
 	"reflect"
-	"runtime"
 	"unsafe"
 )
 
@@ -22,8 +21,6 @@ func S2B(s string) (b []byte) {
 	bh.Data = sh.Data
 	bh.Cap = sh.Len
 	bh.Len = sh.Len
-
-	runtime.KeepAlive(&s)
 
 	return b
 }
