@@ -10,3 +10,4 @@ linters:
     - paralleltest
     - nolintlint
     - ifshort
+    - varnamelen
