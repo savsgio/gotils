@@ -1,17 +1,14 @@
 package bytes
 
 import (
-	"math/rand"
-	"time"
-
+	"github.com/savsgio/gotils/rand"
 	"github.com/savsgio/gotils/strconv"
 )
-
-var src = rand.NewSource(time.Now().UnixNano())
 
 // Rand returns dst with a string random bytes
 // Make sure that dst has the length you need.
 func Rand(dst []byte) []byte {
+	src := rand.AcquireSource()
 	n := len(dst)
 
 	for i, cache, remain := n-1, src.Int63(), charsetIdxMax; i >= 0; {
@@ -27,6 +24,8 @@ func Rand(dst []byte) []byte {
 		cache >>= charsetIdxBits
 		remain--
 	}
+
+	rand.ReleaseSource(src)
 
 	return dst
 }

@@ -2,10 +2,13 @@ package bytes
 
 import (
 	"reflect"
+	"sync"
 	"testing"
 )
 
-func Test_Rand(t *testing.T) {
+func testRand(t *testing.T) {
+	t.Helper()
+
 	n := 32
 	dst := make([]byte, n)
 
@@ -13,13 +16,34 @@ func Test_Rand(t *testing.T) {
 
 	for i := range dst {
 		if string(rune(i)) == "" {
-			t.Fatalf("RandBytes() invalid char '%v'", dst[i])
+			t.Errorf("RandBytes() invalid char '%v'", dst[i])
 		}
 	}
 
 	if len(dst) != n {
-		t.Fatalf("RandBytes() length '%d', want '%d'", len(dst), n)
+		t.Errorf("RandBytes() length '%d', want '%d'", len(dst), n)
 	}
+}
+
+func Test_Rand(t *testing.T) {
+	testRand(t)
+}
+
+func Test_RandConcurrent(t *testing.T) {
+	n := 32
+	wg := sync.WaitGroup{}
+
+	for i := 0; i < n; i++ {
+		wg.Add(1)
+
+		go func() {
+			defer wg.Done()
+
+			testRand(t)
+		}()
+	}
+
+	wg.Wait()
 }
 
 func Test_Copy(t *testing.T) {
@@ -135,7 +159,9 @@ func Benchmark_Rand(b *testing.B) {
 	n := 32
 	dst := make([]byte, n)
 
-	for i := 0; i < b.N; i++ {
-		Rand(dst)
-	}
+	b.RunParallel(func(pb *testing.PB) {
+		for pb.Next() {
+			Rand(dst)
+		}
+	})
 }
