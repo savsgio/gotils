@@ -3,19 +3,17 @@ package rand
 import (
 	"math/rand"
 	"sync"
+	"time"
 )
 
 var sourcePool = sync.Pool{
 	New: func() interface{} {
-		return rand.NewSource(0)
+		return rand.NewSource(time.Now().UnixNano())
 	},
 }
 
-func AcquireSource(seed int64) rand.Source {
-	src := sourcePool.Get().(rand.Source) // nolint:forcetypeassert
-	src.Seed(seed)
-
-	return src
+func AcquireSource() rand.Source {
+	return sourcePool.Get().(rand.Source) // nolint:forcetypeassert
 }
 
 func ReleaseSource(src rand.Source) {
