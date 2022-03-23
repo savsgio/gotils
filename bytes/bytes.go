@@ -1,31 +1,36 @@
 package bytes
 
 import (
-	"github.com/savsgio/gotils/rand"
+	crand "crypto/rand"
+
 	"github.com/savsgio/gotils/strconv"
+	"github.com/valyala/bytebufferpool"
 )
 
-// Rand returns dst with a string random bytes
-// Make sure that dst has the length you need.
+var randBytesPool = bytebufferpool.Pool{}
+
+// Rand returns dst with a cryptographically secure string random bytes.
+//
+// NOTE: Make sure that dst has the length you need.
 func Rand(dst []byte) []byte {
-	src := rand.AcquireSource()
-	n := len(dst)
+	buf := randBytesPool.Get()
+	buf.B = Extend(buf.B, len(dst))
 
-	for i, cache, remain := n-1, src.Int63(), charsetIdxMax; i >= 0; {
-		if remain == 0 {
-			cache, remain = src.Int63(), charsetIdxMax
-		}
-
-		if idx := int(cache & charsetIdxMask); idx < len(charset) {
-			dst[i] = charset[idx]
-			i--
-		}
-
-		cache >>= charsetIdxBits
-		remain--
+	if _, err := crand.Read(buf.B); err != nil {
+		panic(err)
 	}
 
-	rand.ReleaseSource(src)
+	size := len(dst)
+
+	for i, j := 0, 0; i < size; j++ {
+		// Mask bytes to get an index into the character slice.
+		if idx := int(buf.B[j%size] & charsetIdxMask); idx < len(charset) {
+			dst[i] = charset[idx]
+			i++
+		}
+	}
+
+	randBytesPool.Put(buf)
 
 	return dst
 }

@@ -4,24 +4,38 @@ import (
 	"reflect"
 	"sync"
 	"testing"
+
+	"github.com/savsgio/gotils/strings"
 )
 
 func testRand(t *testing.T) {
 	t.Helper()
 
-	n := 32
-	dst := make([]byte, n)
+	values := make([]string, 0)
 
-	Rand(dst)
+	for i := 0; i < 10000; i++ {
+		n := 32
+		dst := make([]byte, n)
 
-	for i := range dst {
-		if string(rune(i)) == "" {
-			t.Errorf("RandBytes() invalid char '%v'", dst[i])
+		Rand(dst)
+
+		if strings.Include(values, string(dst)) {
+			t.Error("Rand() returns the same value")
+
+			return
 		}
-	}
 
-	if len(dst) != n {
-		t.Errorf("RandBytes() length '%d', want '%d'", len(dst), n)
+		values = append(values, string(dst))
+
+		for i := range dst {
+			if string(rune(i)) == "" {
+				t.Errorf("RandBytes() invalid char '%v'", dst[i])
+			}
+		}
+
+		if len(dst) != n {
+			t.Errorf("RandBytes() length '%d', want '%d'", len(dst), n)
+		}
 	}
 }
 
