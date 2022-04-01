@@ -11,11 +11,11 @@ func TestFloat64Calculator_Add(t *testing.T) {
 	x := 1.0
 	y := 0.1
 
-	for i := 0; i < 100; i++ {
+	for i := 0; i < 10; i++ {
 		x = fc.Add(x, y)
 	}
 
-	want := 11.0
+	want := 2.0
 
 	if want != x {
 		t.Errorf("Add() == %v, want %v", want, x)
@@ -28,11 +28,11 @@ func TestFloat64Calculator_Sub(t *testing.T) {
 	x := 1.0
 	y := 0.1
 
-	for i := 0; i < 100; i++ {
+	for i := 0; i < 10; i++ {
 		x = fc.Sub(x, y)
 	}
 
-	want := -9.0
+	want := 0.0
 
 	if want != x {
 		t.Errorf("Sub() == %v, want %v", want, x)
@@ -45,14 +45,14 @@ func TestFloat64Calculator_Mul(t *testing.T) {
 	x := 1.0
 	y := 0.1
 
-	for i := 0; i < 100; i++ {
+	for i := 0; i < 10; i++ {
 		x = fc.Mul(x, y)
 	}
 
-	want := 0.0
+	want := math.Pow10(-10)
 
 	if want != x {
-		t.Errorf("Mul() == %v, want %v", want, x)
+		t.Errorf("Mul() == %v, want %v", x, want)
 	}
 }
 

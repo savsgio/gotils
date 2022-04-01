@@ -42,8 +42,8 @@ func (fc *Float64Calculator) Max(x, y int) int {
 func (fc *Float64Calculator) Add(a, b float64) float64 {
 	exp := math.Pow10(fc.Max(fc.DecimalPlaces(a), fc.DecimalPlaces(b)))
 
-	intA := math.Trunc(a * exp)
-	intB := math.Trunc(b * exp)
+	intA := math.Round(a * exp)
+	intB := math.Round(b * exp)
 
 	return (intA + intB) / exp
 }
@@ -52,8 +52,8 @@ func (fc *Float64Calculator) Add(a, b float64) float64 {
 func (fc *Float64Calculator) Sub(a, b float64) float64 {
 	exp := math.Pow10(fc.Max(fc.DecimalPlaces(a), fc.DecimalPlaces(b)))
 
-	intA := math.Trunc(a * exp)
-	intB := math.Trunc(b * exp)
+	intA := math.Round(a * exp)
+	intB := math.Round(b * exp)
 
 	return (intA - intB) / exp
 }
@@ -66,8 +66,8 @@ func (fc *Float64Calculator) Mul(a, b float64) float64 {
 	expA := math.Pow10(placesA)
 	expB := math.Pow10(placesB)
 
-	intA := math.Trunc(a * expA)
-	intB := math.Trunc(b * expB)
+	intA := math.Round(a * expA)
+	intB := math.Round(b * expB)
 
 	exp := math.Pow10(placesA + placesB)
 
@@ -82,8 +82,8 @@ func (fc *Float64Calculator) Div(a, b float64) float64 {
 	expA := math.Pow10(placesA)
 	expB := math.Pow10(placesB)
 
-	intA := math.Trunc(a * expA)
-	intB := math.Trunc(b * expB)
+	intA := math.Round(a * expA)
+	intB := math.Round(b * expB)
 
 	exp := math.Pow10(placesA - placesB)
 
@@ -92,7 +92,7 @@ func (fc *Float64Calculator) Div(a, b float64) float64 {
 
 // Mod returns a % b.
 func (fc *Float64Calculator) Mod(a, b float64) float64 {
-	quo := math.Trunc(fc.Div(a, b))
+	quo := math.Round(fc.Div(a, b))
 
 	return fc.Sub(a, fc.Mul(b, quo))
 }
