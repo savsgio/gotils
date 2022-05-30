@@ -11,3 +11,11 @@ linters:
     - nolintlint
     - ifshort
     - varnamelen
+    - exhaustruct
+    - nonamedreturns
+
+    # Deprecated
+    - maligned
+    - scopelint
+    - golint
+    - interfacer
