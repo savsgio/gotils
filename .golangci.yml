@@ -13,9 +13,14 @@ linters:
     - varnamelen
     - exhaustruct
     - nonamedreturns
+    - depguard
 
     # Deprecated
     - maligned
     - scopelint
     - golint
     - interfacer
+    - varcheck
+    - structcheck
+    - deadcode
+    - nosnakecase
