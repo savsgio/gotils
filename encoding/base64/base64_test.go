@@ -37,7 +37,7 @@ var pairs = []testpair{
 	{"sure.", "c3VyZS4="},
 }
 
-func testEqual(t *testing.T, msg string, args ...interface{}) { // nolint:thelper
+func testEqual(t *testing.T, msg string, args ...any) { // nolint:thelper
 	if args[len(args)-2] != args[len(args)-1] {
 		t.Errorf(msg, args...)
 	}

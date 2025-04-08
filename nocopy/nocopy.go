@@ -1,7 +1,7 @@
 package nocopy
 
-// Lock ...
+// Lock is a no-op implementation of the sync.Locker interface.
 func (*NoCopy) Lock() {}
 
-// Unlock ...
+// Unlock is a no-op implementation of the sync.Locker interface.
 func (*NoCopy) Unlock() {}
