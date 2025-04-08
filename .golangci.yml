@@ -33,7 +33,7 @@ linters:
         - shadow
       enable-all: true
     lll:
-      line-length: 130
+      line-length: 119
     revive:
       rules:
         - name: indent-error-flow
