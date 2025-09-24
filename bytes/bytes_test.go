@@ -2,10 +2,9 @@ package bytes
 
 import (
 	"reflect"
+	"slices"
 	"sync"
 	"testing"
-
-	"github.com/savsgio/gotils/strings"
 )
 
 func testRand(t *testing.T) {
@@ -19,7 +18,7 @@ func testRand(t *testing.T) {
 
 		Rand(dst)
 
-		if strings.Include(values, string(dst)) {
+		if slices.Contains(values, string(dst)) {
 			t.Error("Rand() returns the same value")
 
 			return

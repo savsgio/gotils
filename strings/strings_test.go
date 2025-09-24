@@ -14,6 +14,27 @@ func Test_Copy(t *testing.T) {
 	}
 }
 
+func Test_UniqueAppend(t *testing.T) {
+	slice := []string{"kratgo", "fast", "http", "cache"}
+	slice2 := CopySlice(slice)
+
+	result := UniqueAppend(slice, slice[0])
+	if len(result) != len(slice) {
+		t.Errorf("UniqueAppend() == %v, want %v", result, slice)
+	}
+
+	slice2 = append(slice2, "unique")
+
+	result = UniqueAppend(slice, slice2...)
+	if len(result) == len(slice) {
+		t.Errorf("UniqueAppend() == %v, want %v", result, slice2)
+	}
+}
+
+// ------------------------------------------------------------
+// DEPRECATED
+// ------------------------------------------------------------
+
 func Test_CopySlice(t *testing.T) {
 	slice := []string{"kratgo", "fast", "http", "cache"}
 
@@ -49,23 +70,6 @@ func Test_Include(t *testing.T) {
 	s = "slow"
 	if ok := Include(slice, s); ok {
 		t.Errorf("stringSliceInclude() = %v, want %v", ok, false)
-	}
-}
-
-func Test_UniqueAppend(t *testing.T) {
-	slice := []string{"kratgo", "fast", "http", "cache"}
-	slice2 := CopySlice(slice)
-
-	result := UniqueAppend(slice, slice[0])
-	if len(result) != len(slice) {
-		t.Errorf("UniqueAppend() == %v, want %v", result, slice)
-	}
-
-	slice2 = append(slice2, "unique")
-
-	result = UniqueAppend(slice, slice2...)
-	if len(result) == len(slice) {
-		t.Errorf("UniqueAppend() == %v, want %v", result, slice2)
 	}
 }
 

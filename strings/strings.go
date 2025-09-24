@@ -1,37 +1,14 @@
 package strings
 
 import (
+	"slices"
+
 	"github.com/savsgio/gotils/strconv"
 )
 
 // Copy returns a copy of string in a new pointer.
 func Copy(s string) string {
 	return string(strconv.S2B(s))
-}
-
-// CopySlice returns a copy of the slice.
-func CopySlice(slice []string) []string {
-	dst := make([]string, len(slice))
-	copy(dst, slice)
-
-	return dst
-}
-
-// IndexOf returns index position in slice from given string
-// If value is -1, the string does not found.
-func IndexOf(slice []string, s string) int {
-	for i, v := range slice {
-		if v == s {
-			return i
-		}
-	}
-
-	return -1
-}
-
-// Include returns true or false if given string is in slice.
-func Include(slice []string, s string) bool {
-	return IndexOf(slice, s) != -1
 }
 
 // UniqueAppend appends a string if not exist in the slice.
@@ -47,26 +24,40 @@ func UniqueAppend(slice []string, s ...string) []string {
 	return slice
 }
 
+// CopySlice returns a copy of the slice.
+//
+// Deprecated: Use slices.Clone instead, it will be removed in the future.
+func CopySlice(slice []string) []string {
+	return slices.Clone(slice)
+}
+
+// IndexOf returns index position in slice from given string
+// If value is -1, the string does not found.
+//
+// Deprecated: Use slices.Index instead, it will be removed in the future.
+func IndexOf(s []string, v string) int {
+	return slices.Index(s, v)
+}
+
+// Include returns true or false if given string is in slice.
+//
+// Deprecated: Use slices.Contains instead, it will be removed in the future.
+func Include(s []string, v string) bool {
+	return slices.Contains(s, v)
+}
+
 // EqualSlices checks if the slices are equal.
-func EqualSlices(slice1, slice2 []string) bool {
-	if len(slice1) != len(slice2) {
-		return false
-	}
-
-	for i := range slice1 {
-		if slice1[i] != slice2[i] {
-			return false
-		}
-	}
-
-	return true
+//
+// Deprecated: Use slices.Equal instead, it will be removed in the future.
+func EqualSlices(s1, s2 []string) bool {
+	return slices.Equal(s1, s2)
 }
 
 // ReverseSlice reverses a string slice.
-func ReverseSlice(slice []string) []string {
-	for i, j := 0, len(slice)-1; i < j; i, j = i+1, j-1 {
-		slice[i], slice[j] = slice[j], slice[i]
-	}
+//
+// Deprecated: Use slices.Reverse instead, it will be removed in the future.
+func ReverseSlice(s []string) []string {
+	slices.Reverse(s)
 
-	return slice
+	return s
 }
