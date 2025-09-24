@@ -13,6 +13,7 @@ linters:
     - mnd
     - copyloopvar
     - intrange
+    - noinlineerr
   settings:
     gocritic:
       disabled-checks:
